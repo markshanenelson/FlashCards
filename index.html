@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spanish Opposite Adjectives Flashcards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between">
+
+    <header class="bg-indigo-600 text-white shadow-md py-6 px-4">
+        <div class="max-w-3xl mx-auto text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">Spanish Opposite Adjectives</h1>
+            <p class="text-indigo-200 text-sm mt-1">Interactive Flashcards (Parte 1 & Parte 2)</p>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col items-center justify-center p-4 max-w-xl mx-auto w-full">
+        
+        <!-- Progress Bar & Counter -->
+        <div class="w-full flex justify-between items-center mb-4 text-sm font-medium text-slate-500">
+            <span id="card-counter">Card 1 of 20</span>
+            <div class="w-1/2 bg-slate-200 h-2 rounded-full overflow-hidden">
+                <div id="progress-bar" class="bg-indigo-600 h-full transition-all duration-300" style="width: 5%;"></div>
+            </div>
+        </div>
+
+        <!-- Flashcard Wrapper -->
+        <div class="w-full h-72 sm:h-80 perspective-1000 cursor-pointer" onclick="flipCard()">
+            <div id="flashcard-inner" class="relative w-full h-full duration-500 transform-style-3d shadow-xl rounded-2xl bg-white border border-slate-100">
+                
+                <!-- Front of Card -->
+                <div class="absolute inset-0 w-full h-full backface-hidden flex flex-col items-center justify-center p-8 text-center bg-white rounded-2xl">
+                    <span class="text-xs uppercase tracking-wider font-semibold text-indigo-500 mb-2">Spanish Word</span>
+                    <h2 id="card-front" class="text-3xl sm:text-4xl font-bold text-slate-800 mb-4">largo/a</h2>
+                    <p class="text-xs text-slate-400 mt-8">(Click or tap card to flip)</p>
+                </div>
+
+                <!-- Back of Card -->
+                <div class="absolute inset-0 w-full h-full backface-hidden rotate-y-180 flex flex-col items-center justify-center p-8 text-center bg-indigo-50 rounded-2xl">
+                    <span class="text-xs uppercase tracking-wider font-semibold text-indigo-600 mb-2">English Definition / Pair</span>
+                    <h2 id="card-back" class="text-2xl sm:text-3xl font-bold text-indigo-900 mb-3">long ↔ short</h2>
+                    <p id="card-hint" class="text-sm text-indigo-600 font-medium italic"></p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Navigation Controls -->
+        <div class="flex items-center justify-between w-full mt-6 gap-4">
+            <button onclick="prevCard()" class="flex-1 bg-white border border-slate-300 hover:bg-slate-100 text-slate-700 font-semibold py-3 px-4 rounded-xl shadow-sm transition active:scale-95">
+                ← Previous
+            </button>
+            <button onclick="shuffleCards()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold py-3 px-4 rounded-xl shadow-sm transition active:scale-95" title="Shuffle cards">
+                🔀 Shuffle
+            </button>
+            <button onclick="nextCard()" class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition active:scale-95">
+                Next →
+            </button>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-4 text-xs text-slate-400">
+        <p>Visual Vocabulary • Spanish I Flashcards</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // Parte 1
+            { front: "largo/a ↔ corto/a", back: "long ↔ short", hint: "Parte 1 de 2" },
+            { front: "educado/a ↔ maleducado/a", back: "polite, well-mannered ↔ rude, ill-mannered", hint: "Parte 1 de 2" },
+            { front: "gordo/a ↔ delgado/a", back: "heavyset, fat ↔ thin, slim", hint: "Parte 1 de 2" },
+            { front: "caliente ↔ frío/a", back: "hot ↔ cold", hint: "Parte 1 de 2" },
+            { front: "antiguo/a ↔ moderno/a", back: "old, antique ↔ modern", hint: "Parte 1 de 2" },
+            { front: "ancho/a ↔ estrecho/a", back: "wide ↔ narrow", hint: "Parte 1 de 2" },
+            { front: "agradable ↔ desagradable", back: "pleasant, agreeable ↔ unpleasant, disagreeable", hint: "Parte 1 de 2" },
+            { front: "fuerte ↔ débil", back: "strong ↔ weak", hint: "Parte 1 de 2" },
+            { front: "famoso/a ↔ desconocido/a", back: "famous ↔ unknown", hint: "Parte 1 de 2" },
+            { front: "feliz ↔ triste", back: "happy ↔ sad", hint: "Parte 1 de 2" },
+            // Parte 2
+            { front: "divertido/a ↔ aburrido/a", back: "fun, entertaining ↔ boring", hint: "Parte 2 de 2" },
+            { front: "duro/a ↔ blando/a", back: "hard ↔ soft", hint: "Parte 2 de 2" },
+            { front: "egoísta ↔ solidario/a", back: "selfish ↔ supportive, caring", hint: "Parte 2 de 2" },
+            { front: "fácil ↔ difícil", back: "easy ↔ difficult", hint: "Parte 2 de 2" },
+            { front: "cuadrado/a ↔ redondo/a", back: "square ↔ round", hint: "Parte 2 de 2" },
+            { front: "conocido/a ↔ desconocido/a", back: "known, well-known ↔ unknown", hint: "Parte 2 de 2" },
+            { front: "cómodo/a ↔ incómodo/a", back: "comfortable ↔ uncomfortable", hint: "Parte 2 de 2" },
+            { front: "colorido/a ↔ descolorido/a", back: "colorful ↔ faded, colorless", hint: "Parte 2 de 2" },
+            { front: "casado/a ↔ soltero/a", back: "married ↔ single", hint: "Parte 2 de 2" },
+            { front: "caro/a ↔ barato/a", back: "expensive ↔ cheap, inexpensive", hint: "Parte 2 de 2" }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        const cardInner = document.getElementById('flashcard-inner');
+        const cardFront = document.getElementById('card-front');
+        const cardBack = document.getElementById('card-back');
+        const cardHint = document.getElementById('card-hint');
+        const cardCounter = document.getElementById('card-counter');
+        const progressBar = document.getElementById('progress-bar');
+
+        function updateCard() {
+            isFlipped = false;
+            cardInner.style.transform = 'rotateY(0deg)';
+            
+            setTimeout(() => {
+                cardFront.textContent = flashcards[currentIndex].front;
+                cardBack.textContent = flashcards[currentIndex].back;
+                cardHint.textContent = flashcards[currentIndex].hint;
+                cardCounter.textContent = `Card ${currentIndex + 1} of ${flashcards.length}`;
+                progressBar.style.width = `${((currentIndex + 1) / flashcards.length) * 100}%`;
+            }, 150);
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            cardInner.style.transform = isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)';
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % flashcards.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + flashcards.length) % flashcards.length;
+            updateCard();
+        }
+
+        function shuffleCards() {
+            for (let i = flashcards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [flashcards[i], flashcards[j]] = [flashcards[j], flashcards[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        // Initialize first card
+        updateCard();
+    </script>
+
+</body>
+</html>
